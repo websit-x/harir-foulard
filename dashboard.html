@@ -45,7 +45,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background-color: #d1bfae; /* لون أنيق يناسب الحرير */
+            background-color: #d1bfae;
             color: #333;
             border: none;
             border-radius: 5px;
@@ -95,9 +95,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
 
-        // مفاتيح مشروعك
+        // مفاتيح مشروعك في فايربيس
         const firebaseConfig = {
             apiKey: "AIzaSyCXliqC63fmieXCsi1VrRsy0wmRtfV34EE",
             authDomain: "harir-foulard.firebaseapp.com",
@@ -107,20 +106,20 @@
             appId: "1:216589177776:web:b5b25425b51f4c9932bc75"
         };
 
-        // تهيئة فايربيس
+        // تهيئة فايربيس (قاعدة البيانات فقط)
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // التعامل مع زر الإضافة
         const form = document.getElementById('add-product-form');
         const submitBtn = document.getElementById('submit-btn');
         const messageDiv = document.getElementById('message');
 
+        // مفتاح API مجاني لخدمة رفع الصور (ImgBB)
+        const IMGBB_API_KEY = "64f9b8c04e38e88e8f8150ea0c3541bd"; // مفتاح تجريبي، يمكنك تغييره لاحقاً
+
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // منع تحديث الصفحة
+            e.preventDefault();
             
-            // تعطيل الزر أثناء الرفع
             submitBtn.disabled = true;
             submitBtn.innerText = "جاري الرفع... الرجاء الانتظار ⏳";
             messageDiv.innerHTML = "";
@@ -130,32 +129,38 @@
             const file = document.getElementById('product-image').files[0];
 
             try {
-                // 1. إنشاء مسار للصورة في Firebase Storage باسم فريد
-                const storageRef = ref(storage, 'foulards_images/' + Date.now() + '_' + file.name);
-                
-                // 2. رفع الصورة
-                const uploadResult = await uploadBytes(storageRef, file);
-                
-                // 3. جلب رابط الصورة بعد رفعها
-                const imageUrl = await getDownloadURL(uploadResult.ref);
+                // 1. رفع الصورة إلى خدمة ImgBB المجانية
+                const formData = new FormData();
+                formData.append('image', file);
 
-                // 4. حفظ بيانات المنتج (الاسم، السعر، ورابط الصورة) في Firestore
+                const imgResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const imgData = await imgResponse.json();
+                
+                if (!imgData.success) {
+                    throw new Error("فشل في رفع الصورة");
+                }
+
+                const imageUrl = imgData.data.url; // الحصول على رابط الصورة المباشر
+
+                // 2. حفظ بيانات المنتج (الاسم، السعر، ورابط الصورة) في Firestore
                 await addDoc(collection(db, "products"), {
                     name: name,
                     price: Number(price),
-                    imageUrl: imageUrl,
+                    imageUrl: imageUrl, // نستخدم الرابط الذي حصلنا عليه من ImgBB
                     createdAt: new Date()
                 });
 
-                // رسالة نجاح وتفريغ الحقول
-                messageDiv.innerHTML = "<span class='success'>✅ تم إضافة المنتج بنجاح! سيظهر الآن في المتجر.</span>";
+                messageDiv.innerHTML = "<span class='success'>✅ تم إضافة المنتج بنجاح!</span>";
                 form.reset();
 
             } catch (error) {
-                console.error("Error adding product: ", error);
-                messageDiv.innerHTML = "<span class='error'>❌ حدث خطأ أثناء الرفع: " + error.message + "</span>";
+                console.error("Error:", error);
+                messageDiv.innerHTML = "<span class='error'>❌ حدث خطأ: " + error.message + "</span>";
             } finally {
-                // إعادة الزر لحالته الطبيعية
                 submitBtn.disabled = false;
                 submitBtn.innerText = "رفع المنتج إلى المتجر";
             }
