@@ -1,186 +1,401 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم - Harir Foulard</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .dashboard-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-        input[type="text"], input[type="number"], input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #d1bfae; /* لون يتناسب مع ثيم المتجر */
-            color: #333;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #bfa894;
-        }
-        #message {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .success { color: green; }
-        .error { color: red; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة التحكم - Harir Foulard</title>
+<style>
+:root{--p:#B8977E;--pd:#9a7a62;--line:#eee;--red:#e74c3c;--green:#2c8c5a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#f6f4f1;color:#2b2b2b;padding:14px}
+.hide{display:none!important}
+.box{background:#fff;border-radius:14px;padding:24px;box-shadow:0 3px 12px rgba(0,0,0,.07);max-width:420px;margin:60px auto}
+.wrap{max-width:1050px;margin:0 auto}
+h2{margin-bottom:14px;color:#333}h3{margin-bottom:12px}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:18px}
+.fg{margin-bottom:12px}.fg label{display:block;font-weight:700;font-size:.86rem;margin-bottom:4px;color:#555}
+.fg small{color:#888;font-size:.78rem}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:.95rem;background:#fff}
+input[type=color]{padding:2px;height:40px}input[type=checkbox]{width:auto}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--p)}
+button{cursor:pointer;border:none;border-radius:8px;padding:10px 16px;font-weight:700;font-size:.9rem;background:var(--p);color:#fff}
+button:hover{background:var(--pd)}button:disabled{opacity:.6;cursor:wait}
+.btn2{background:#eee;color:#333}.btn2:hover{background:#ddd}
+.btn-r{background:var(--red)}.btn-r:hover{background:#c0392b}
+.btn-g{background:#25D366}.btn-g:hover{background:#1ebd5a}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{background:#fff;color:#555;border:1px solid #ddd}.tab.on{background:var(--p);color:#fff;border-color:var(--p)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.msg{margin-top:10px;font-weight:700;font-size:.9rem}.er{color:var(--red)}.ok{color:var(--green)}
+.crow{display:flex;gap:8px;margin-bottom:8px}.crow input[type=color]{width:60px;flex-shrink:0}
+.imgs{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.imgs .im{position:relative;width:90px;height:90px;border-radius:8px;overflow:hidden;border:2px solid #eee}
+.imgs .im.main{border-color:var(--p)}
+.imgs img{width:100%;height:100%;object-fit:cover}
+.imgs .im button{position:absolute;top:2px;left:2px;padding:1px 7px;font-size:.8rem;background:rgba(0,0,0,.65)}
+.imgs .im em{position:absolute;bottom:0;left:0;right:0;background:var(--p);color:#fff;font-size:.7rem;text-align:center;font-style:normal}
+.pi{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.pi.off{opacity:.55}
+.pi img,.pi .ph{width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#eee}
+.pi .m{flex:1;min-width:0}.pi .m b{display:block}.pi .m small{color:#777}
+.pi .a{display:flex;gap:6px;flex-wrap:wrap}.pi .a button{padding:6px 10px;font-size:.8rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.stats div{background:#fff;border-radius:12px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.85rem;color:#777}
+.stats b{display:block;font-size:1.3rem;color:var(--p);margin-bottom:3px}
+.o{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);line-height:1.8;font-size:.92rem}
+.o .h{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.o ul{margin:6px 22px;color:#444}
+.o .f{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.o .f select{width:auto}.o .f a{background:#25D366;color:#fff;padding:7px 12px;border-radius:8px;font-weight:700;font-size:.82rem;text-decoration:none}
+.st{padding:2px 10px;border-radius:12px;font-size:.78rem;font-weight:700;color:#fff;background:#999}
+.st.new{background:#e67e22}.st.confirmed{background:#2980b9}.st.shipped{background:#8e44ad}.st.delivered{background:var(--green)}.st.cancelled{background:#c0392b}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}.bar select,.bar input{width:auto;min-width:180px}
+.shiptbl{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px 10px;align-items:center;font-size:.88rem;max-height:420px;overflow-y:auto;padding:4px}
+.shiptbl .hd{font-weight:700;color:#555;position:sticky;top:0;background:#fff;padding:4px 0}
+.shiptbl input{padding:6px 8px}
+.note{background:#fff4e5;border:1px solid #f5c26b;color:#8a5a00;border-radius:8px;padding:10px;font-size:.85rem;line-height:1.8;margin-bottom:12px}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}.pi{flex-wrap:wrap}}
+</style>
 </head>
 <body>
 
-    <div class="dashboard-container">
-        <h2>إضافة فولار جديد 🧣</h2>
-        <form id="add-product-form">
-            <div class="form-group">
-                <label for="product-name">اسم أو موديل الفولار:</label>
-                <input type="text" id="product-name" required placeholder="مثال: فولار حرير تركي أصلي">
-            </div>
-            
-            <div class="form-group">
-                <label for="product-price">السعر (دينار جزائري):</label>
-                <input type="number" id="product-price" required placeholder="مثال: 1500">
-            </div>
+<div class="box" id="login">
+  <h2 style="text-align:center">🔒 لوحة تحكم Harir Foulard</h2>
+  <form id="lf">
+    <div class="fg"><label>البريد الإلكتروني</label><input type="email" id="l-mail" required autocomplete="username"></div>
+    <div class="fg"><label>كلمة السر</label><input type="password" id="l-pass" required autocomplete="current-password"></div>
+    <button style="width:100%" id="l-btn">دخول</button>
+    <div class="msg er" id="l-err"></div>
+  </form>
+</div>
 
-            <div class="form-group">
-                <label for="product-image">صورة الفولار:</label>
-                <input type="file" id="product-image" accept="image/*" required>
-            </div>
+<div class="wrap hide" id="app">
+  <div class="top">
+    <h2 style="margin:0">لوحة تحكم Harir Foulard</h2>
+    <div><a href="index.html" target="_blank" style="margin-left:10px;color:var(--pd);font-weight:700">عرض المتجر ↗</a><span id="who" style="margin-left:10px;color:#777;font-size:.82rem"></span><button class="btn2" id="out">خروج</button></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" data-tab="t-ord">الطلبات <span id="newc"></span></button>
+    <button class="tab" data-tab="t-prod">المنتجات</button>
+    <button class="tab" data-tab="t-set">الإعدادات</button>
+  </div>
 
-            <button type="submit" id="submit-btn">رفع المنتج إلى المتجر</button>
-        </form>
-        <div id="message"></div>
+  <!-- ===== الطلبات ===== -->
+  <section id="t-ord">
+    <div class="stats" id="stats"></div>
+    <div class="bar">
+      <select id="ofilter"><option value="">كل الحالات</option><option value="new">جديد</option><option value="confirmed">مؤكد</option><option value="shipped">تم الشحن</option><option value="delivered">تم التسليم</option><option value="cancelled">ملغى</option></select>
+      <input id="osearch" placeholder="بحث بالاسم / الهاتف / رقم الطلب">
+      <button class="btn2" id="csv">تصدير CSV</button>
     </div>
+    <div id="olist"></div>
+  </section>
 
-    <!-- استدعاء مكتبات فايربيس -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+  <!-- ===== المنتجات ===== -->
+  <section id="t-prod" class="hide">
+    <div class="card">
+      <h3 id="ftitle">إضافة منتج جديد</h3>
+      <form id="pf">
+        <div class="row2">
+          <div class="fg"><label>اسم المنتج *</label><input id="p-name" required maxlength="100"></div>
+          <div class="fg"><label>الفئة *</label><input id="p-cat" list="cats" required maxlength="40" placeholder="مثال: فولار"><datalist id="cats"></datalist></div>
+        </div>
+        <div class="row3">
+          <div class="fg"><label>السعر (د.ج) *</label><input type="number" id="p-price" required min="1"></div>
+          <div class="fg"><label>السعر قبل التخفيض</label><input type="number" id="p-old" min="0"><small>اختياري، يظهر مشطوباً مع نسبة التخفيض</small></div>
+          <div class="fg"><label>الشارة</label><select id="p-tag"><option value="">بدون</option><option value="new">جديد</option></select></div>
+        </div>
+        <div class="fg"><label>الوصف</label><textarea id="p-desc" rows="3" maxlength="800" placeholder="الخامة، المقاس، ملاحظات..."></textarea></div>
+        <div class="fg"><label>الألوان المتوفرة</label><div id="colors"></div><button type="button" class="btn2" id="addc">+ إضافة لون</button></div>
+        <div class="fg"><label>صور المنتج (حتى 4، الأولى هي الرئيسية)</label>
+          <input type="file" id="p-img" accept="image/*" multiple>
+          <div class="imgs" id="imgs"></div></div>
+        <div class="fg"><label><input type="checkbox" id="p-sold"> نفد المخزون (يظهر المنتج بدون إمكانية الطلب)</label></div>
+        <button id="p-btn" style="width:100%">حفظ المنتج</button>
+        <button type="button" class="btn2 hide" id="cancel" style="width:100%;margin-top:8px">إلغاء التعديل</button>
+        <div class="msg" id="pmsg"></div>
+      </form>
+    </div>
+    <div class="card"><h3>المنتجات الحالية (<span id="pcount">0</span>)</h3><div id="plist"></div></div>
+  </section>
 
-        // مفاتيح مشروعك في Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCXliqC63fmieXCsi1VrRsy0wmRtfV34EE",
-            authDomain: "harir-foulard.firebaseapp.com",
-            projectId: "harir-foulard",
-            storageBucket: "harir-foulard.firebasestorage.app",
-            messagingSenderId: "216589177776",
-            appId: "1:216589177776:web:b5b25425b51f4c9932bc75"
-        };
+  <!-- ===== الإعدادات ===== -->
+  <section id="t-set" class="hide">
+    <form id="sf">
+      <div class="card">
+        <h3>معلومات المتجر</h3>
+        <div class="row2">
+          <div class="fg"><label>رقم واتساب لاستقبال الطلبات *</label><input id="s-phone" required inputmode="numeric" placeholder="213557713851"><small>بصيغة دولية بدون + (مثال: 213XXXXXXXXX)</small></div>
+          <div class="fg"><label>حد التوصيل المجاني للمنزل (د.ج)</label><input type="number" id="s-free" min="0" placeholder="0 = لا يوجد"></div>
+        </div>
+        <div class="fg"><label>شريط الإعلان أعلى الموقع</label><input id="s-ann" maxlength="150" placeholder="اختياري، مثال: تخفيضات نهاية الأسبوع"></div>
+        <div class="row2">
+          <div class="fg"><label>عنوان الواجهة الرئيسية</label><input id="s-ht" maxlength="80"></div>
+          <div class="fg"><label>الوصف تحت العنوان</label><input id="s-hs" maxlength="160"></div>
+        </div>
+        <div class="fg"><label>صورة الواجهة الرئيسية</label><input type="file" id="s-himg" accept="image/*"><div class="imgs" id="himg"></div><small>إن لم ترفع صورة يُستعمل الملف chikor.jpg الموجود بجانب الموقع.</small></div>
+      </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+      <div class="card">
+        <h3>نصوص المتجر (اختيارية: ما تتركه فارغاً لن يظهر)</h3>
+        <div class="fg"><label>من نحن</label><textarea id="s-about" rows="3" maxlength="800"></textarea></div>
+        <div class="fg"><label>معلومات التوصيل</label><textarea id="s-ship" rows="2" maxlength="400" placeholder="مثال: التوصيل عبر Yalidine خلال ... أيام"></textarea></div>
+        <div class="fg"><label>معلومات الدفع</label><textarea id="s-pay" rows="2" maxlength="400"></textarea></div>
+        <div class="fg"><label>الاستبدال والإرجاع</label><textarea id="s-ret" rows="2" maxlength="400"></textarea></div>
+        <div class="row3">
+          <div class="fg"><label>رابط Instagram</label><input id="s-ig" placeholder="https://..."></div>
+          <div class="fg"><label>رابط TikTok</label><input id="s-tt" placeholder="https://..."></div>
+          <div class="fg"><label>رابط Facebook</label><input id="s-fb" placeholder="https://..."></div>
+        </div>
+      </div>
 
-        const form = document.getElementById('add-product-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const messageDiv = document.getElementById('message');
+      <div class="card">
+        <h3>أسعار التوصيل لكل ولاية (د.ج)</h3>
+        <div class="note">أي ولاية تتركها فارغة سيظهر للزبون «يُحدد عند التأكيد» ولن يُضاف توصيل للإجمالي. استعمل أسعار شركة التوصيل الحقيقية.</div>
+        <div class="bar">
+          <input type="number" id="f-home" placeholder="سعر المنزل الموحد" min="0">
+          <input type="number" id="f-desk" placeholder="سعر المكتب الموحد" min="0">
+          <button type="button" class="btn2" id="fill">تطبيق على الولايات الفارغة</button>
+        </div>
+        <div class="shiptbl" id="shiptbl"></div>
+      </div>
+      <button id="s-btn" style="width:100%;padding:14px;font-size:1rem">حفظ الإعدادات</button>
+      <div class="msg" id="smsg"></div>
+    </form>
+  </section>
+</div>
 
-        // دالة لضغط الصورة وتحويلها إلى نص (Base64) لتقليل حجمها قبل حفظها
-        function compressImage(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 600; // تصغير عرض الصورة لتقليل حجمها في قاعدة البيانات
-                        let width = img.width;
-                        let height = img.height;
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import {getFirestore,collection,onSnapshot,addDoc,updateDoc,setDoc,getDoc,deleteDoc,doc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
-                        if (width > MAX_WIDTH) {
-                            height = Math.round((height * MAX_WIDTH) / width);
-                            width = MAX_WIDTH;
-                        }
+const app=initializeApp({
+  apiKey:"AIzaSyCXliqC63fmieXCsi1VrRsy0wmRtfV34EE",
+  authDomain:"harir-foulard.firebaseapp.com",
+  projectId:"harir-foulard",
+  storageBucket:"harir-foulard.firebasestorage.app",
+  messagingSenderId:"216589177776",
+  appId:"1:216589177776:web:b5b25425b51f4c9932bc75"
+});
+const auth=getAuth(app),db=getFirestore(app);
+const WILAYAS=["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة"];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>Number(n||0).toLocaleString('en-US')+' د.ج';
+const STATUS={new:'جديد',confirmed:'مؤكد',shipped:'تم الشحن',delivered:'تم التسليم',cancelled:'ملغى'};
+const ts=o=>o.createdAt&&o.createdAt.toMillis?o.createdAt.toMillis():0;
+let unsubs=[];
 
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // ضغط الصورة وتوليد Base64 بنسبة جودة 0.7
-                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                        resolve(compressedBase64);
-                    };
-                    img.onerror = error => reject(error);
-                };
-                reader.onerror = error => reject(error);
-            });
-        }
+/* ---------- الدخول ---------- */
+$('lf').addEventListener('submit',async e=>{
+  e.preventDefault();$('l-err').textContent='';$('l-btn').disabled=true;
+  try{await signInWithEmailAndPassword(auth,$('l-mail').value.trim(),$('l-pass').value)}
+  catch(err){$('l-err').textContent='بيانات الدخول غير صحيحة'}
+  $('l-btn').disabled=false;
+});
+$('out').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,u=>{
+  unsubs.forEach(f=>f());unsubs=[];
+  $('login').classList.toggle('hide',!!u);$('app').classList.toggle('hide',!u);
+  if(u){$('who').textContent=u.email;listenProducts();listenOrders();loadSettings()}
+});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
+  ['t-ord','t-prod','t-set'].forEach(id=>$(id).classList.toggle('hide',id!==b.dataset.tab));
+});
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            submitBtn.innerText = "جاري الرفع... الرجاء الانتظار ⏳";
-            messageDiv.innerHTML = "";
+/* ---------- الصور ---------- */
+function compress(file,max=700,q=.72){return new Promise((res,rej)=>{
+  const r=new FileReader();r.onerror=rej;
+  r.onload=ev=>{const img=new Image();img.onerror=rej;img.onload=()=>{
+    let w=img.width,h=img.height;if(w>max){h=Math.round(h*max/w);w=max}
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);
+    res(c.toDataURL('image/jpeg',q))};img.src=ev.target.result};
+  r.readAsDataURL(file)})}
 
-            const name = document.getElementById('product-name').value;
-            const price = document.getElementById('product-price').value;
-            const file = document.getElementById('product-image').files[0];
+/* ---------- المنتجات ---------- */
+let prods=[],editing=null,formImgs=[];
+function addColor(name='',hex='#B8977E'){
+  const d=document.createElement('div');d.className='crow';
+  d.innerHTML=`<input class="cn" placeholder="اسم اللون (مثال: بيج)" maxlength="30"><input class="cx" type="color"><button type="button" class="btn2">✕</button>`;
+  d.querySelector('.cn').value=name;d.querySelector('.cx').value=hex;
+  d.querySelector('button').onclick=()=>d.remove();$('colors').appendChild(d);
+}
+$('addc').onclick=()=>addColor();
+const getColors=()=>[...document.querySelectorAll('.crow')].map(r=>({name:r.querySelector('.cn').value.trim(),hex:r.querySelector('.cx').value})).filter(c=>c.name);
+function renderImgs(){
+  $('imgs').innerHTML=formImgs.map((u,i)=>`<div class="im ${i===0?'main':''}"><img src="${esc(u)}" alt=""><button type="button" data-rm="${i}">✕</button>${i===0?'<em>الرئيسية</em>':`<em style="background:#777;cursor:pointer" data-main="${i}">اجعلها رئيسية</em>`}</div>`).join('');
+}
+$('imgs').addEventListener('click',e=>{
+  const r=e.target.closest('[data-rm]'),m=e.target.closest('[data-main]');
+  if(r){formImgs.splice(+r.dataset.rm,1);renderImgs()}
+  if(m){const i=+m.dataset.main;formImgs.unshift(formImgs.splice(i,1)[0]);renderImgs()}
+});
+$('p-img').onchange=async e=>{
+  const files=[...e.target.files];e.target.value='';
+  for(const f of files){
+    if(formImgs.length>=4){$('pmsg').className='msg er';$('pmsg').textContent='الحد الأقصى 4 صور';break}
+    try{formImgs.push(await compress(f))}catch(err){$('pmsg').className='msg er';$('pmsg').textContent='تعذر قراءة إحدى الصور'}
+  }
+  renderImgs();
+};
+function resetForm(){
+  editing=null;formImgs=[];$('pf').reset();$('colors').innerHTML='';addColor();renderImgs();
+  $('ftitle').textContent='إضافة منتج جديد';$('cancel').classList.add('hide');
+}
+$('cancel').onclick=resetForm;
 
-            try {
-                // 1. معالجة وضغط الصورة
-                const imageBase64 = await compressImage(file);
+function listenProducts(){
+  unsubs.push(onSnapshot(collection(db,'products'),s=>{
+    prods=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>ts(b)-ts(a));
+    $('pcount').textContent=prods.length;
+    $('cats').innerHTML=[...new Set(prods.map(p=>p.cat).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join('');
+    $('plist').innerHTML=prods.length?prods.map(p=>`
+      <div class="pi ${p.active===false?'off':''}">
+        ${p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="">`:'<div class="ph"></div>'}
+        <div class="m"><b>${esc(p.name)}</b><small>${esc(p.cat||'بدون فئة')} • ${money(p.price)}${p.old?` (كان ${money(p.old)})`:''}${p.soldOut?' • نفد':''}${p.active===false?' • مخفي':''}</small></div>
+        <div class="a">
+          <button class="btn2" data-a="edit" data-id="${esc(p.id)}">تعديل</button>
+          <button class="btn2" data-a="sold" data-id="${esc(p.id)}">${p.soldOut?'متوفر':'نفد'}</button>
+          <button class="btn2" data-a="tog" data-id="${esc(p.id)}">${p.active===false?'إظهار':'إخفاء'}</button>
+          <button class="btn-r" data-a="del" data-id="${esc(p.id)}">حذف</button>
+        </div></div>`).join(''):'<p style="color:#777">لا توجد منتجات بعد. أضف أول منتج من النموذج أعلاه.</p>';
+  },err=>{$('plist').innerHTML=`<p class="er msg">تعذر التحميل: ${esc(err.message)}<br>تأكد من قواعد Firestore ومن أن حسابك هو المسؤول.</p>`}));
+}
+$('plist').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const p=prods.find(x=>x.id===b.dataset.id);if(!p)return;
+  try{
+    if(b.dataset.a==='edit'){
+      editing=p.id;formImgs=[p.imageUrl,...(Array.isArray(p.images)?p.images:[])].filter(Boolean);
+      $('p-name').value=p.name||'';$('p-cat').value=p.cat||'';$('p-price').value=p.price||'';$('p-old').value=p.old||'';
+      $('p-tag').value=p.tag==='new'?'new':'';$('p-desc').value=p.desc||'';$('p-sold').checked=p.soldOut===true;
+      $('colors').innerHTML='';(Array.isArray(p.colors)&&p.colors.length?p.colors:[{name:'',hex:'#B8977E'}]).forEach(c=>addColor(c.name,c.hex));
+      renderImgs();$('ftitle').textContent='تعديل: '+(p.name||'');$('cancel').classList.remove('hide');
+      document.querySelector('[data-tab="t-prod"]').click();scrollTo({top:0,behavior:'smooth'});
+    }else if(b.dataset.a==='sold')await updateDoc(doc(db,'products',p.id),{soldOut:!p.soldOut});
+    else if(b.dataset.a==='tog')await updateDoc(doc(db,'products',p.id),{active:p.active===false});
+    else if(b.dataset.a==='del'&&confirm('حذف "'+p.name+'" نهائياً؟'))await deleteDoc(doc(db,'products',p.id));
+  }catch(err){alert('فشلت العملية: '+err.message)}
+});
+$('pf').addEventListener('submit',async e=>{
+  e.preventDefault();const m=$('pmsg');m.className='msg';m.textContent='';
+  const btn=$('p-btn');btn.disabled=true;btn.textContent='جاري الحفظ...';
+  try{
+    if(!formImgs.length)throw new Error('أضف صورة واحدة على الأقل');
+    if(formImgs.join('').length>880000)throw new Error('حجم الصور كبير، احذف صورة أو استعمل صوراً أخف');
+    const price=Number($('p-price').value),old=Number($('p-old').value)||0;
+    if(!(price>0))throw new Error('أدخل سعراً صحيحاً');
+    if(old&&old<=price)throw new Error('السعر قبل التخفيض يجب أن يكون أكبر من السعر الحالي');
+    const data={name:$('p-name').value.trim(),cat:$('p-cat').value.trim(),price,old,tag:$('p-tag').value,desc:$('p-desc').value.trim(),
+      colors:getColors(),imageUrl:formImgs[0],images:formImgs.slice(1),soldOut:$('p-sold').checked,updatedAt:serverTimestamp()};
+    if(editing)await updateDoc(doc(db,'products',editing),data);
+    else await addDoc(collection(db,'products'),{...data,active:true,createdAt:serverTimestamp()});
+    resetForm();m.className='msg ok';m.textContent='✅ تم الحفظ';
+  }catch(err){m.className='msg er';m.textContent='❌ '+err.message}
+  btn.disabled=false;btn.textContent='حفظ المنتج';
+});
 
-                // 2. حفظ البيانات (الاسم، السعر، والصورة كنص) في Firestore
-                await addDoc(collection(db, "products"), {
-                    name: name,
-                    price: Number(price),
-                    imageUrl: imageBase64,
-                    createdAt: new Date()
-                });
+/* ---------- الطلبات ---------- */
+let orders=[],firstLoad=true;
+function listenOrders(){
+  firstLoad=true;
+  unsubs.push(onSnapshot(collection(db,'orders'),s=>{
+    if(!firstLoad&&s.docChanges().some(c=>c.type==='added'))document.title='🔔 طلب جديد - لوحة التحكم';
+    firstLoad=false;
+    orders=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>ts(b)-ts(a));renderOrders();
+  },err=>{$('olist').innerHTML=`<p class="er msg">تعذر تحميل الطلبات: ${esc(err.message)}<br>تأكد من قواعد Firestore ومن أن حسابك هو المسؤول.</p>`}));
+}
+const waLink=ph=>'https://wa.me/'+String(ph||'').replace(/\D/g,'').replace(/^0/,'213');
+function filtered(){
+  const f=$('ofilter').value,q=$('osearch').value.trim().toLowerCase();
+  return orders.filter(o=>(!f||o.status===f)&&(!q||[o.name,o.phone,o.ref,o.state,o.city].join(' ').toLowerCase().includes(q)));
+}
+function renderOrders(){
+  const nw=orders.filter(o=>o.status==='new').length,dl=orders.filter(o=>o.status==='delivered');
+  $('newc').textContent=nw?`(${nw})`:'';
+  $('stats').innerHTML=`<div><b>${orders.length}</b>كل الطلبات</div><div><b>${nw}</b>جديدة</div><div><b>${orders.filter(o=>o.status==='shipped').length}</b>قيد الشحن</div><div><b>${dl.length}</b>تم تسليمها</div><div><b>${money(dl.reduce((s,o)=>s+(o.total||0),0))}</b>مبيعات مسلّمة</div>`;
+  const list=filtered();
+  $('olist').innerHTML=list.length?list.map(o=>{
+    const dt=o.createdAt&&o.createdAt.toDate?o.createdAt.toDate().toLocaleString('en-GB'):'';
+    return `<div class="o">
+      <div class="h"><b>${esc(o.ref)}</b><span class="st ${esc(o.status)}">${esc(STATUS[o.status]||o.status)}</span><small style="color:#777">${esc(dt)}</small></div>
+      <div><b>${esc(o.name)}</b> • <a href="tel:${esc(o.phone)}" style="color:#333">${esc(o.phone)}</a></div>
+      <div style="color:#555">${esc(o.state)} - ${esc(o.city)} • ${o.delivery==='desk'?'مكتب (Stop Desk)':'المنزل: '+esc(o.address)}</div>
+      ${o.note?`<div style="color:#a65a10">ملاحظة: ${esc(o.note)}</div>`:''}
+      <ul>${(Array.isArray(o.items)?o.items:[]).map(i=>`<li>${esc(i.name)}${i.color?' | '+esc(i.color):''} × ${esc(i.qty)} = ${money(Number(i.price)*Number(i.qty))}</li>`).join('')}</ul>
+      <div>المنتجات ${money(o.subtotal)} + توصيل ${o.shipping===0?'مجاني':o.shipping==null?'<b style="color:#c0392b">غير محدد</b>':money(o.shipping)} = <b>${money(o.total)}</b></div>
+      <div class="f">
+        <select data-st="${esc(o.id)}">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`).join('')}</select>
+        <a href="${esc(waLink(o.phone))}" target="_blank" rel="noopener">واتساب الزبون</a>
+        <button class="btn-r" data-del="${esc(o.id)}" style="padding:6px 10px;font-size:.8rem">حذف</button>
+      </div></div>`}).join(''):'<p style="color:#777;text-align:center;padding:30px">لا توجد طلبات.</p>';
+}
+$('ofilter').onchange=renderOrders;$('osearch').oninput=renderOrders;
+$('olist').addEventListener('change',async e=>{
+  const s=e.target.closest('[data-st]');if(!s)return;
+  try{await updateDoc(doc(db,'orders',s.dataset.st),{status:s.value})}catch(err){alert('فشل التحديث: '+err.message)}
+});
+$('olist').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-del]');if(!b)return;
+  if(confirm('حذف هذا الطلب نهائياً؟'))try{await deleteDoc(doc(db,'orders',b.dataset.del))}catch(err){alert('فشل الحذف: '+err.message)}
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)document.title='لوحة التحكم - Harir Foulard'});
+$('csv').onclick=()=>{
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const rows=[['رقم الطلب','التاريخ','الحالة','الاسم','الهاتف','الولاية','البلدية','التوصيل','العنوان','المنتجات','المنتجات د.ج','التوصيل د.ج','الإجمالي د.ج','ملاحظات']];
+  filtered().forEach(o=>rows.push([o.ref,o.createdAt&&o.createdAt.toDate?o.createdAt.toDate().toISOString():'',STATUS[o.status]||o.status,o.name,o.phone,o.state,o.city,o.delivery==='desk'?'مكتب':'منزل',o.address,(o.items||[]).map(i=>`${i.name}${i.color?' ('+i.color+')':''} x${i.qty}`).join(' + '),o.subtotal,o.shipping??'',o.total,o.note]));
+  const blob=new Blob(['﻿'+rows.map(r=>r.map(q).join(',')).join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='orders.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+};
 
-                messageDiv.innerHTML = "<span class='success'>✅ تم إضافة المنتج بنجاح!</span>";
-                form.reset();
+/* ---------- الإعدادات ---------- */
+let heroImg='';
+$('shiptbl').innerHTML='<div class="hd">الولاية</div><div class="hd">المنزل</div><div class="hd">المكتب</div>'+WILAYAS.map((w,i)=>`<div>${esc(w)} (${String(i+1).padStart(2,'0')})</div><input type="number" min="0" data-w="${i}" data-k="0"><input type="number" min="0" data-w="${i}" data-k="1">`).join('');
+function renderHero(){$('himg').innerHTML=heroImg?`<div class="im main"><img src="${esc(heroImg)}" alt=""><button type="button" id="hrm">✕</button></div>`:''}
+$('himg').addEventListener('click',e=>{if(e.target.id==='hrm'){heroImg='';renderHero()}});
+$('s-himg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{heroImg=await compress(f,1400,.75);renderHero()}catch(err){}};
+$('fill').onclick=()=>{
+  const h=$('f-home').value,d=$('f-desk').value;
+  document.querySelectorAll('#shiptbl input').forEach(i=>{if(i.value==='')i.value=i.dataset.k==='0'?h:d});
+};
+async function loadSettings(){
+  try{
+    const s=await getDoc(doc(db,'settings','store'));const x=s.exists()?s.data():{};
+    $('s-phone').value=x.phone||'213557713851';$('s-free').value=x.freeShipFrom||'';$('s-ann').value=x.announcement||'';
+    $('s-ht').value=x.heroTitle||'أناقة الحرير بين يديكِ';$('s-hs').value=x.heroSub||'تشكيلات فاخرة مصممة خصيصاً لتبرز جمالك بنعومة وتميز.';
+    $('s-about').value=x.about||'';$('s-ship').value=x.shipInfo||'';$('s-pay').value=x.payInfo||'';$('s-ret').value=x.returnInfo||'';
+    $('s-ig').value=x.instagram??'https://www.instagram.com/harirfoulard';$('s-tt').value=x.tiktok??'https://www.tiktok.com/@harir_foulard';$('s-fb').value=x.facebook??'https://www.facebook.com/profile.php?id=61554541024324';
+    heroImg=x.heroImage||'';renderHero();
+    document.querySelectorAll('#shiptbl input').forEach(i=>{const e=x.shipping&&x.shipping[WILAYAS[+i.dataset.w]];const v=e?e[+i.dataset.k]:null;i.value=v==null?'':v});
+  }catch(err){$('smsg').className='msg er';$('smsg').textContent='تعذر تحميل الإعدادات: '+err.message}
+}
+$('sf').addEventListener('submit',async e=>{
+  e.preventDefault();const m=$('smsg');m.className='msg';m.textContent='';$('s-btn').disabled=true;
+  try{
+    const phone=$('s-phone').value.replace(/\D/g,'');
+    if(!/^213[567]\d{8}$/.test(phone))throw new Error('رقم واتساب غير صحيح: يجب أن يكون بصيغة 213XXXXXXXXX');
+    const url=v=>{v=v.trim();if(v&&!/^https:\/\//.test(v))throw new Error('الروابط يجب أن تبدأ بـ https://');return v};
+    const shipping={};
+    WILAYAS.forEach((w,i)=>{
+      const h=document.querySelector(`#shiptbl input[data-w="${i}"][data-k="0"]`).value,d=document.querySelector(`#shiptbl input[data-w="${i}"][data-k="1"]`).value;
+      if(h!==''||d!=='')shipping[w]=[h===''?null:Number(h),d===''?null:Number(d)];
+    });
+    if(heroImg.length>700000)throw new Error('صورة الواجهة كبيرة، اختر صورة أخف');
+    await setDoc(doc(db,'settings','store'),{phone,freeShipFrom:Number($('s-free').value)||0,announcement:$('s-ann').value.trim(),heroTitle:$('s-ht').value.trim(),heroSub:$('s-hs').value.trim(),heroImage:heroImg,
+      about:$('s-about').value.trim(),shipInfo:$('s-ship').value.trim(),payInfo:$('s-pay').value.trim(),returnInfo:$('s-ret').value.trim(),
+      instagram:url($('s-ig').value),tiktok:url($('s-tt').value),facebook:url($('s-fb').value),shipping,updatedAt:serverTimestamp()});
+    m.className='msg ok';m.textContent='✅ تم حفظ الإعدادات';
+  }catch(err){m.className='msg er';m.textContent='❌ '+err.message}
+  $('s-btn').disabled=false;
+});
 
-            } catch (error) {
-                console.error("Error:", error);
-                messageDiv.innerHTML = "<span class='error'>❌ حدث خطأ أثناء الحفظ: " + error.message + "</span>";
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "رفع المنتج إلى المتجر";
-            }
-        });
-    </script>
+resetForm();
+</script>
 </body>
 </html>
